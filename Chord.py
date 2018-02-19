@@ -1,4 +1,5 @@
 import sys
+import winsound
 def main():
     if len(sys.argv) > 2:
         print("what are you talking about...")
@@ -29,6 +30,10 @@ def main():
             semitonediff = secondnote.relpitch - firstnote.relpitch
         else:
             semitonediff = secondnote.relpitch - firstnote.relpitch
+
+
+        #making the sound
+        soundmaker(firstnote, secondnote)
 
 
         ##checking what chord this is
@@ -139,8 +144,11 @@ class note:
             else:
                 self.relpitch -= 2
 
+        self.frequency = 440 * pow(2, (self.relpitch - 10)/12)
+
     def addoneoctave(self):
         self.relpitch += 12
+        self.frequency *= 2
 
     def checkvalid(self):
         if len(self.name) == 1: #without accidentals
@@ -188,6 +196,9 @@ def intnamemaker(intnum, intqual):
 
     print("the interval is a " + intqual + " " + intdis)
 
+def soundmaker(note1, note2):
+    winsound.Beep(round(note1.frequency), 2000)
+    winsound.Beep(round(note2.frequency), 2000)
 
 if __name__ == '__main__':
     main()
